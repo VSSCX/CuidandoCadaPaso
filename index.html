@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Preguntas</title>
+    <style>
+        /* General CSS Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Body y contenedor principal */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            text-align: center;
+            overflow-x: hidden;  /* Evita el desbordamiento horizontal */
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 900px;
+            width: 100%; /* Asegura que el contenedor no exceda el tamaño de la pantalla */
+            margin: 0 auto; /* Centra el contenido */
+            padding: 20px;
+        }
+
+        /* Encabezado */
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Preguntas y opciones */
+        .question {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            width: 100%;
+        }
+
+        /* Opciones de respuestas */
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Botones de opción */
+        .options button {
+            background-color: #FF9F00;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            width: 60%;
+        }
+
+        /* Botones al pasar el mouse */
+        .options button:hover {
+            background-color: #FF7A00;
+        }
+
+        /* Mensajes de retroalimentación */
+        .success {
+            color: #28A745;
+            font-size: 1.2em;
+            margin-top: 20px;
+            background-color: #d4edda;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .warning {
+            color: #DC3545;
+            font-size: 1.2em;
+            margin-top: 20px;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        .game-footer {
+            margin-top: 50px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.1em;
+        }
+
+        /* Botones para continuar */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .button-container button {
+            background-color: #007BFF;
+            color: white;
+            font-size: 1.2em;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Imágenes */
+        img {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .question {
+                font-size: 1.1em;
+            }
+            .options button {
+                width: 80%;
+                font-size: 1em;
+            }
+            .game-footer {
+                font-size: 1em;
+            }
+            .button-container button {
+                font-size: 1em;
+                padding: 12px 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            .question {
+                font-size: 1em;
+            }
+            .options button {
+                width: 90%;
+                font-size: 0.9em;
+            }
+            .game-footer {
+                font-size: 0.9em;
+            }
+            .button-container button {
+                font-size: 0.9em;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+ <div class="container">
+        <div class="header">
+            <h1>Cuidando Cada Paso</h1>
+            <p>Aprende a cuidar tus pies para prevenir complicaciones de la diabetes.</p>
+        </div>
+
+        <div id="game-content"></div>
+
+        <div class="game-footer">
+            <p>¡Cuida tus pies, protege tu salud!</p>
+<p>Desarrollado por Luciana Hidalgo</p>
+        </div>
+    </div>
+
+<script>
+        const steps = [
+            {
+                 question: '¿Cómo debes secar tus pies después del lavado?',
+                image: 'https://link-a-imagen-correcta.jpg',
+                options: [
+                    { text: 'Secar completamente, excepto entre los dedos', correct: true },
+                    { text: 'Secar incluyendo entre los dedos con fuerza', correct: false }
+                ],
+                correctFeedback: 'Correcto: Secar completamente pero sin frotar entre los dedos evita lesiones.',
+                incorrectFeedback: 'Incorrecto: Secar entre los dedos puede causar irritaciones y aumentar el riesgo de lesiones.',
+                incorrectImage: 'https://link-imagen-riesgo-secado-inadecuado.jpg'
+            },
+            {
+                question: '¿Qué tipo de calzado debes usar?',
+                image: 'https://link-a-imagen-calzado-correcto.jpg',
+                options: [
+                    { text: 'Calzado cerrado y cómodo', correct: true },
+                    { text: 'Sandalias abiertas', correct: false }
+                ],
+                correctFeedback: 'Correcto: El calzado cerrado protege los pies de lesiones y golpes.',
+                incorrectFeedback: 'Incorrecto: Las sandalias abiertas exponen los pies a lesiones.',
+                incorrectImage: 'https://link-imagen-riesgo-sandalias-abiertas.jpg'
+            },
+            {
+                question: '¿Debes aplicar crema hidratante entre los dedos?',
+                image: 'https://link-a-imagen-hidratacion-correcta.jpg',
+                options: [
+                    { text: 'No, solo en el resto del pie', correct: true },
+                    { text: 'Sí, entre los dedos y el resto del pie', correct: false }
+                ],
+                correctFeedback: 'Correcto: No aplicar crema entre los dedos evita la humedad excesiva que puede causar hongos.',
+                incorrectFeedback: 'Incorrecto: Aplicar crema entre los dedos puede favorecer hongos por humedad.',
+                incorrectImage: 'https://link-imagen-riesgo-crema-entre-dedos.jpg'
+            }, 
+{   question: '¿Cómo debes revisar tus pies diariamente?',
+                image: 'https://link-a-imagen-revision-diaria.jpg',
+                options: [
+                    { text: 'Mirando cuidadosamente cada parte del pie', correct: true },
+                    { text: 'Revisando solo la parte superior del pie', correct: false }
+                ],
+                correctFeedback: 'Correcto: Revisar todos los lados del pie te ayudará a detectar lesiones temprano.',
+                incorrectFeedback: 'Incorrecto: No revisar todas las partes de los pies puede hacer que no notes heridas. Realiza una revisión completa.',
+                incorrectImage: 'https://link-imagen-riesgo-no-revision.jpg'
+            },
+            {
+                question: '¿Cómo deben estar tus pies al caminar?',
+                image: 'https://link-a-imagen-pies-al-caminar.jpg',
+                options: [
+                    { text: 'Firmes y sin presión en los dedos', correct: true },
+                    { text: 'Con presión excesiva en los dedos o talones', correct: false }
+                ],
+                correctFeedback: 'Correcto: Caminar de forma natural sin presión excesiva previene lesiones.',
+                incorrectFeedback: 'Incorrecto: La presión excesiva en los pies puede causar úlceras o lesiones graves. Asegúrate de caminar correctamente.',
+                incorrectImage: 'https://link-imagen-riesgo-presion-excesiva.jpg'
+            },
+            {
+                question: '¿Cómo debes cortar tus uñas?',
+                image: 'https://link-a-imagen-corte-de-unas.jpg',
+                options: [
+                    { text: 'Cortar rectas y no muy cortas', correct: true },
+                    { text: 'Cortar en forma redonda y muy cortas', correct: false }
+                ],
+                correctFeedback: 'Correcto: Cortar las uñas rectas previene que se encarnen.',
+                incorrectFeedback: 'Incorrecto: Cortar las uñas de forma incorrecta puede causar lesiones o infecciones. Hazlo con cuidado.',
+                incorrectImage: 'https://link-imagen-riesgo-corte-inadecuado.jpg'
+            },
+            {
+    question: '¿Cuándo debes consultar a un médico por problemas en los pies?',
+    image: 'https://link-a-imagen-consulta-medica.jpg',
+    options: [
+        { text: 'Cuando notes algún cambio en la piel o uñas', correct: true },
+        { text: 'Solo cuando haya una herida grave', correct: false }
+    ],
+    correctFeedback: 'Correcto: Es importante consultar a un médico si notas cualquier cambio en la piel o uñas encarnadas.',
+    incorrectFeedback: 'Incorrecto: Esperar hasta tener una herida grave puede hacer que el problema sea más complicado de tratar.',
+    incorrectImage: 'https://link-imagen-riesgo-consulta-tardia.jpg'
+},
+            {
+                question: '¿Qué calcetines deberías usar?',
+                image: 'https://link-a-imagen-calcetines-correctos.jpg',
+                options: [
+                    { text: 'Calcetines blancos de algodón', correct: true },
+                    { text: 'Calcetines de colores sintéticos', correct: false }
+                ],
+                correctFeedback: 'Correcto: Los calcetines blancos permiten identificar heridas y absorben mejor la humedad.',
+                incorrectFeedback: 'Incorrecto: Los calcetines sintéticos y de colores pueden retener humedad y ocultar lesiones. No usar calcetines adecuados puede provocar problemas de circulación y piel.',
+                incorrectImage: 'https://link-imagen-riesgo-calcetines-sinteticos.jpg'
+            },
+
+        ];
+
+        let currentStep = 0;
+        let incorrectAnswers = 0;
+        const gameContent = document.getElementById("game-content");
+
+        function displayQuestion(step) {
+            const questionData = steps[step];
+            gameContent.innerHTML = `
+                <div class="question">
+                    <p>${questionData.question}</p>
+                    <img src="${questionData.image}" alt="Pregunta">
+                    <div class="options">
+                        ${questionData.options.map((option, index) => `
+                            <button onclick="checkAnswer(${index})">${option.text}</button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkAnswer(optionIndex) {
+            const currentQuestion = steps[currentStep];
+            const isCorrect = currentQuestion.options[optionIndex].correct;
+            const feedback = isCorrect ? currentQuestion.correctFeedback : currentQuestion.incorrectFeedback;
+            const feedbackClass = isCorrect ? 'success' : 'warning';
+            const feedbackImage = isCorrect ? '' : `<img src="${currentQuestion.incorrectImage}" alt="Error">`;
+            if (!isCorrect) {
+                incorrectAnswers++;
+            }
+            gameContent.innerHTML = `
+                <div class="${feedbackClass}">
+                    <p>${feedback}</p>
+                    ${feedbackImage}
+                </div>
+                <div class="button-container">
+                    <button onclick="nextQuestion()">Siguiente</button>
+                </div>
+            `;
+        }
+
+        function nextQuestion() {
+            currentStep++;
+            if (currentStep < steps.length) {
+                displayQuestion(currentStep);
+            } else {
+                if (incorrectAnswers > 1) {
+                    gameContent.innerHTML = `
+                        <div class="warning">
+                            <p>Has cometido varias respuestas incorrectas. Es importante que revises los cuidados recomendados para tus pies y consultes con tu médico para obtener procedimientos específicos que te ayuden a cuidar tu salud.</p>
+                        </div>
+                        <div class="button-container">
+                            <button onclick="restartGame()">Reiniciar Juego</button>
+                        </div>
+                    `;
+                } else {
+                    gameContent.innerHTML = `
+                        <div class="success">
+                            <p>¡Felicidades! Has completado el juego.</p>
+                        </div>
+                        <div class="button-container">
+                            <button onclick="restartGame()">Reiniciar Juego</button>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function restartGame() {
+            currentStep = 0;
+            incorrectAnswers = 0;
+            displayQuestion(currentStep);
+        }
+
+        displayQuestion(currentStep);
+    </script>
+</body>
+</html>
